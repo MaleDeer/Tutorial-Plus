@@ -13,8 +13,14 @@ namespace IdentityServer
         {
             return new IdentityResource[]
             {
+                // 如果要请求 OIDC 预设的 scope 就必须要加上 OpenId(),
+                // 加上他表示这个是一个 OIDC 协议的请求
+                // Profile Address Phone Email 全部是属于 OIDC 预设的 scope
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResources.Address(),
+                new IdentityResources.Phone(),
+                new IdentityResources.Email()
             };
         }
 
@@ -30,35 +36,6 @@ namespace IdentityServer
         {
             return new[]
             {
-                // client credentials flow client
-                new Client
-                {
-                    ClientId = "client",
-                    ClientName = "Client Credentials Client",
-
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
-
-                    AllowedScopes = { "api1" }
-                },
-
-                // MVC client using hybrid flow
-                new Client
-                {
-                    ClientId = "mvc",
-                    ClientName = "MVC Client",
-
-                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-                    ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
-
-                    RedirectUris = { "http://localhost:5001/signin-oidc" },
-                    FrontChannelLogoutUri = "http://localhost:5001/signout-oidc",
-                    PostLogoutRedirectUris = { "http://localhost:5001/signout-callback-oidc" },
-
-                    AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "api1" }
-                },
-
                 // SPA client using code flow + pkce
                 new Client
                 {
@@ -81,7 +58,7 @@ namespace IdentityServer
                     PostLogoutRedirectUris = { "http://localhost:5002/index.html" },
                     AllowedCorsOrigins = { "http://localhost:5002" },
 
-                    AllowedScopes = { "openid", "profile", "api1" }
+                    AllowedScopes = { "api1", "openid", "profile", "address", "phone", "email" }
                 }
             };
         }
