@@ -36,28 +36,34 @@ namespace IdentityServer
         {
             return new[]
             {
-                // SPA client using code flow + pkce
                 new Client
                 {
                     ClientId = "spa",
                     ClientName = "SPA Client",
                     ClientUri = "http://identityserver.io",
-
-                    AllowedGrantTypes = GrantTypes.Code,
-                    RequirePkce = true,
-                    RequireClientSecret = false,
-
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    
+                    // AccessToken 是否可以通过浏览器返回
+                    AllowAccessTokensViaBrowser = true,
+                    // 是否需要用户点击同意（待测试）
+                    RequireConsent = true,
+                    // AccessToken 的有效期
+                    AccessTokenLifetime = 60 * 5,
+                    
                     RedirectUris =
                     {
-                        "http://localhost:5002/index.html",
-                        "http://localhost:5002/callback.html",
-                        "http://localhost:5002/silent.html",
-                        "http://localhost:5002/popup.html",
+                        // 指定登录成功跳转回来的 uri
+                        "http://localhost:8080/signin-oidc",
+                        // AccessToken 有效期比较短，刷新 AccessToken 的页面
+                        "http://localhost:8080/redirect-silentrenew",
+                        "http://localhost:8080/silent.html",
+                        "http://localhost:8080/popup.html",
                     },
-
-                    PostLogoutRedirectUris = { "http://localhost:5002/index.html" },
-                    AllowedCorsOrigins = { "http://localhost:5002" },
-
+                    
+                    // 登出 以后跳转的页面
+                    PostLogoutRedirectUris = { "http://localhost:8080/" },
+                    // 指定跨域
+                    AllowedCorsOrigins = { "http://localhost:8080", "http://192.168.118.1:8080" },
                     AllowedScopes = { "api1", "openid", "profile", "address", "phone", "email" }
                 }
             };
