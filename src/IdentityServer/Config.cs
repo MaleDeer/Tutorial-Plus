@@ -40,7 +40,7 @@ namespace IdentityServer
                 {
                     ClientId = "spa",
                     ClientName = "SPA Client",
-                    ClientUri = "http://identityserver.io",
+                    ClientUri = "http://localhost:5001",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     
                     // AccessToken 是否可以通过浏览器返回
@@ -53,17 +53,17 @@ namespace IdentityServer
                     RedirectUris =
                     {
                         // 指定登录成功跳转回来的 uri
-                        "http://localhost:8080/signin-oidc",
+                        "http://localhost:5001/signin-oidc",
                         // AccessToken 有效期比较短，刷新 AccessToken 的页面
-                        "http://localhost:8080/redirect-silentrenew",
-                        "http://localhost:8080/silent.html",
-                        "http://localhost:8080/popup.html",
+                        "http://localhost:5001/redirect-silentrenew",
+                        "http://localhost:5001/silent.html",
+                        "http://localhost:5001/popup.html",
                     },
                     
                     // 登出 以后跳转的页面
-                    PostLogoutRedirectUris = { "http://localhost:8080/" },
+                    PostLogoutRedirectUris = { "http://localhost:5001/" },
                     // 指定跨域
-                    AllowedCorsOrigins = { "http://localhost:8080", "http://192.168.118.1:8080" },
+                    AllowedCorsOrigins = { "http://localhost:5001", "http://127.0.0.1:5001","http://10.1.140.2:5001" },
                     AllowedScopes = { "api1", "openid", "profile", "address", "phone", "email" }
                 }
             };
